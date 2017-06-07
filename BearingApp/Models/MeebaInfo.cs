@@ -12,12 +12,19 @@ namespace BearingApp.Models
         [Key]
         public int ID { get; set; }
 
+        [Display(Name = "Name")]
         public string itemName { get; set; }
+        [Display(Name = "Category")]
         public string category { get; set; }
+        [Display(Name = "Polarity")]
         public string pull { get; set; }
+        [Display(Name = "Appoint")]
         public int apptInt { get; set; }
+        [Display(Name = "Work")]
         public int workInt { get; set; }
+        [Display(Name = "Social")]
         public int socInt { get; set; }
+        [Display(Name = "Event")]
         public int evtInt { get; set; }
         public int persInt { get; set; }
         public int otherInt { get; set; }
