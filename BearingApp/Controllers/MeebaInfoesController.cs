@@ -116,7 +116,7 @@ namespace BearingApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult PostEvent([Bind(Include = "EventID,Name,Category,Pull")]MeebaInfo meeba)
+        public ActionResult PostEvent([Bind(Include = "ID,itemName,category,pull")]MeebaInfo meeba) 
         {
             switch (meeba.category)
             {
