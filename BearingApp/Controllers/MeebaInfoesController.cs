@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BearingApp.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNet.Identity;
 
 namespace BearingApp.Controllers
 {
@@ -18,7 +19,70 @@ namespace BearingApp.Controllers
         // GET: MeebaInfoes
         public ActionResult Index()
         {
-            return View(db.MeebaInfoes.ToList());
+            var userAppt = 0;
+            var userSocial = 0;
+            var userWork = 0;
+            var userPersonal = 0;
+            var userEvent = 0;
+            var userOther = 0;
+            var userInner = 10;
+            var userOuter = 10;
+
+
+            var currentUser = User.Identity.GetUserId();
+            var userMeeba = from user in db.MeebaInfoes
+                            where user.userID == currentUser
+                            select user;
+
+            foreach(var appointment in userMeeba)
+            {
+                userAppt += appointment.apptInt;
+            }
+
+            foreach (var social in userMeeba)
+            {
+                userSocial += social.socInt;
+            }
+
+            foreach (var work in userMeeba)
+            {
+                userWork += work.workInt;
+            }
+
+            foreach (var personal in userMeeba)
+            {
+                userPersonal += personal.persInt;
+            }
+
+            foreach (var evt in userMeeba)
+            {
+                userEvent += evt.evtInt;
+            }
+
+            foreach (var other in userMeeba)
+            {
+                userOther += other.otherInt;
+            }
+
+            foreach (var inner in userMeeba)
+            {
+                userInner += inner.innerInt;
+            }
+
+            foreach (var outer in userMeeba)
+            {
+                userOuter += outer.OuterInt;
+            }
+
+            ViewData["Appointments"] = userAppt;
+            ViewData["Social"] = userSocial;
+            ViewData["Work"] = userWork;
+            ViewData["Events"] = userEvent;
+            ViewData["Personal"] = userPersonal;
+            ViewData["Other"] = userOther;
+            ViewData["Inner"] = userInner;
+            ViewData["Outer"] = userOuter;
+            return View();
         }
 
         // GET: MeebaInfoes/Details/5
@@ -51,6 +115,7 @@ namespace BearingApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 db.MeebaInfoes.Add(meebaInfo);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -116,7 +181,7 @@ namespace BearingApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult PostEvent([Bind(Include = "EventID,Name,Category,Pull")]MeebaInfo meeba)
+        public ActionResult PostEvent([Bind(Include = "ID,itemName,category,pull")]MeebaInfo meeba)
         {
             switch (meeba.category)
             {
@@ -159,8 +224,11 @@ namespace BearingApp.Controllers
                     break;
             }
 
+            meeba.userID = User.Identity.GetUserId();
+
             if (ModelState.IsValid)
             {
+                
                 db.MeebaInfoes.Add(meeba);
                 db.SaveChanges();
             }
