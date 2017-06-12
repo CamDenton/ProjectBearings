@@ -231,12 +231,17 @@ namespace BearingApp.Controllers
                 
                 db.MeebaInfoes.Add(meeba);
                 db.SaveChanges();
+                return RedirectToAction("Index");
             }
             return new JsonResult() { Data = JsonConvert.SerializeObject(meeba.ID), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+               
+    }
+        
 
-        }
+        
 
-        protected override void Dispose(bool disposing)
+
+    protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
