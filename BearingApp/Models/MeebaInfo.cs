@@ -23,5 +23,6 @@ namespace BearingApp.Models
         public int otherInt { get; set; }
         public int innerInt { get; set; }
         public int OuterInt { get; set; }
+        public string userID { get; set; }
     }
 }
